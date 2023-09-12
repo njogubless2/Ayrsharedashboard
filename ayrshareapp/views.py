@@ -1,9 +1,32 @@
 from django.shortcuts import render, redirect
 from .forms import ScheduledPostForm
 from .models import ScheduledPost
-from django.utils import timezone  # You need to import timezone
-
+from django.utils import timezone 
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 import requests
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')  # Redirect to the user's dashboard page
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+# Implement a similar view for user login
+
+
+@login_required
+def dashboard(request):
+    user = request.user
+    scheduled_posts = ScheduledPost.objects.filter(user=user)  # Assuming you add a 'user' field to the ScheduledPost model
+    return render(request, 'dashboard.html', {'scheduled_posts': scheduled_posts})
+
 
 def perform_api_integration(content, scheduled_datetime):
     api_url = "https://api.example.com"  # Replace with your actual API URL
