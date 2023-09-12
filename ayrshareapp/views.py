@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import ScheduledPostForm
+from django.forms import ScheduledPostForm
 from .models import ScheduledPost
 from django.utils import timezone 
 from django.contrib.auth import login, authenticate
