@@ -30,9 +30,16 @@ def dashboard(request):
 
 def perform_api_integration(content, scheduled_datetime):
     api_url = "https://api.example.com"  # Replace with your actual API URL
+    
+    #  get the access token using our secret key
+    
+    
+    
     headers = {
         "Authorization": "Bearer YOUR_API_TOKEN"  # Replace with your actual API token
     }
+
+# retrieving data from the api request.
     data = {
         "text": content,
         "scheduled_at": scheduled_datetime.strftime("%Y-%m-%dT%H:%M:%S"),
